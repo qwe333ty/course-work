@@ -1,0 +1,9 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <include file="changelog/001-create-tables-and-sequences.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/002-rename-table.xml" relativeToChangelogFile="true"/>
+</databaseChangeLog>
