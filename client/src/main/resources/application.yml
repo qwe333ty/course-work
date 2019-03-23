@@ -1,0 +1,11 @@
+gateway:
+  scheme: http
+  host: localhost
+  port: 8080
+
+api:
+  prefix: /api/v1
+  client-ep: /client-message
+
+server:
+  port: 8081
