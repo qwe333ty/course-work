@@ -4,6 +4,7 @@ import com.ak.work.client.entity.Message;
 import com.ak.work.client.util.MessageProducer;
 import lombok.Cleanup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,6 +17,9 @@ import java.util.Scanner;
 
 @SpringBootApplication
 public class ClientApplication implements CommandLineRunner {
+
+    @Value("${custom.value}")
+    private String value;
 
     @Autowired
     private MessageProducer messageProducer;
@@ -42,6 +46,10 @@ public class ClientApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        if (value.compareTo("1") == 0) {
+            return;
+        }
+
         @Cleanup Scanner scanner = new Scanner(System.in);
         System.out.println("\n\n\n\n\n\n");
         System.out.print("<> Hello! Enter your name: ");
