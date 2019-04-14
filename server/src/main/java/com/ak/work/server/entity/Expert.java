@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Expert extends User {
 
     @Column(name = "prev_projects")
-    private int prevProjects;
+    private Integer prevProjects;
 
     @Column(name = "expert_experience")
     private Integer experienceAsExpert;
