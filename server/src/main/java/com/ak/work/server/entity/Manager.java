@@ -17,5 +17,5 @@ public class Manager extends User {
     private String company;
 
     @Column(name = "manager_experience")
-    private Integer experienceAsManager;
+    private int experienceAsManager;
 }

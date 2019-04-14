@@ -94,6 +94,7 @@ public class UserServiceTest {
         expert.setPassword("zxcdDFdvs");
         expert.setExperienceAsExpert(2);
         expert.setRegistrationDate(new Date());
+        expert.setPrevProjects(5);
 
         return expert;
     }

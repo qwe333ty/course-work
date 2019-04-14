@@ -18,7 +18,7 @@ public class ClientMessage {
     @Id
     @Column(name = "id")
     @GeneratedValue(generator = "client_id_sequence")
-    private Long id;
+    private long id;
 
     @NotNull(message = "Name is null")
     @NotEmpty(message = "Name must not be empty")
