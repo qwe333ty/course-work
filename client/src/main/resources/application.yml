@@ -9,3 +9,6 @@ api:
 
 server:
   port: 8081
+
+custom:
+  value: 1

@@ -6,6 +6,9 @@
 
     <changeSet id="cw-001" author="a.k">
         <sqlFile path="sql/001-create-tables-and-sequences.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="sql/001-create-tables-and-sequences-rollback.sql" relativeToChangelogFile="true"/>
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>
