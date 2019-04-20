@@ -5,10 +5,13 @@ gateway:
 
 api:
   prefix: /api/v1
-  client-ep: /client-message
+  urn:
+    problem: /problem
+    solution: /solution
+    user: /user
 
 server:
   port: 8081
 
 custom:
-  value: 1
+  value: 0

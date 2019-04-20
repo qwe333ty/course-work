@@ -2,6 +2,7 @@ package com.ak.work.server;
 
 import com.ak.work.server.entity.*;
 import com.ak.work.server.service.ProblemService;
+import com.ak.work.server.service.SolutionService;
 import com.ak.work.server.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.stream.StreamSupport;
 
@@ -26,6 +26,9 @@ public class UserServiceTest {
 
     @Autowired
     private ProblemService problemService;
+
+    @Autowired
+    private SolutionService solutionService;
 
     @Test
     public void test1() {
@@ -61,14 +64,16 @@ public class UserServiceTest {
 
             Problem problem = new Problem();
             problem.setManager(manager);
+            problem.setHeader("sdfvcv sr sfver sa df");
+            problem = problemService.save(problem);
 
             Solution solution = new Solution();
             solution.setRating(9.86);
             solution.setExpert(expert);
             solution.setProblem(problem);
+            solution.setHeader("qwe 0q w eqw eqweqq qwq weqw e");
+            solutionService.save(solution);
 
-            problem.setSolutions(Collections.singletonList(solution));
-            problem = problemService.save(problem);
             assertThat(problem, hasProperty("id", notNullValue()));
         } else {
             throw new AssertionError("Can't cast user to Manager class.");
