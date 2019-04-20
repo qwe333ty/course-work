@@ -41,7 +41,12 @@ public class UserProducer extends Producer {
                     new HttpEntity<>(credentials),
                     User.class);
 
-            findInheritor(response.getBody());
+            User user = response.getBody();
+            if (user == null) {
+                return Boolean.FALSE;
+            }
+
+            findInheritor(user);
         } catch (RestClientException e) {
             throw new CallToExternalServiceException(HttpMethod.POST, uri);
         } catch (NullPointerException e) {
