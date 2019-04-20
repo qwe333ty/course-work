@@ -46,7 +46,7 @@ public class UserProducer extends Producer {
                 return Boolean.FALSE;
             }
 
-            findInheritor(user);
+            findInheritorAndExecuteMenu(user);
         } catch (RestClientException e) {
             throw new CallToExternalServiceException(HttpMethod.POST, uri);
         } catch (NullPointerException e) {
@@ -55,7 +55,7 @@ public class UserProducer extends Producer {
         return Boolean.TRUE;
     }
 
-    private void findInheritor(User user) {
+    private void findInheritorAndExecuteMenu(User user) {
         if (user instanceof Expert) {
             expertMenu.start();
         } else if (user instanceof Manager) {
