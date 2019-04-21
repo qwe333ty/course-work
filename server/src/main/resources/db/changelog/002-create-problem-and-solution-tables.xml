@@ -5,9 +5,9 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
     <changeSet id="cw-002" author="a.k">
-        <sqlFile path="sql/002-rename-table.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="sql/002-create-problem-and-solution-tables.sql" relativeToChangelogFile="true"/>
         <rollback>
-            <sqlFile path="sql/002-rename-table-rollback.sql" relativeToChangelogFile="true"/>
+            <sqlFile path="sql/002-create-problem-and-solution-tables-rollback.sql" relativeToChangelogFile="true"/>
         </rollback>
     </changeSet>
 

@@ -17,10 +17,13 @@ public class Solution {
     @OneToOne
     private User expert;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "problem_id")
     private Problem problem;
 
     @Column(name = "rating")
     private double rating;
+
+    @Column(name = "header")
+    private String header;
 }

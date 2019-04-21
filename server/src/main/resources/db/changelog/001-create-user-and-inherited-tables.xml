@@ -4,10 +4,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <changeSet id="cw-003" author="a.k">
-        <sqlFile path="sql/003-create-user-and-inherited-tables.sql" relativeToChangelogFile="true"/>
+    <changeSet id="cw-001" author="a.k">
+        <sqlFile path="sql/001-create-user-and-inherited-tables.sql" relativeToChangelogFile="true"/>
         <rollback>
-            <sqlFile path="sql/003-create-user-and-inherited-tables-rollback.sql" relativeToChangelogFile="true"/>
+            <sqlFile path="sql/001-create-user-and-inherited-tables-rollback.sql" relativeToChangelogFile="true"/>
         </rollback>
     </changeSet>
 

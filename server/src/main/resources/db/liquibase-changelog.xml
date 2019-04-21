@@ -4,8 +4,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
-    <include file="changelog/001-create-tables-and-sequences.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/002-rename-table.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/003-create-user-and-inherited-tables.xml" relativeToChangelogFile="true"/>
-    <include file="changelog/004-create-problem-and-solution-tables.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/001-create-user-and-inherited-tables.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/002-create-problem-and-solution-tables.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

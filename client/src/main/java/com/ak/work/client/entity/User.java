@@ -1,45 +1,36 @@
-package com.ak.work.server.entity;
+package com.ak.work.client.entity;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@Entity
-@Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED)
+@AllArgsConstructor
+@NoArgsConstructor
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         include = JsonTypeInfo.As.PROPERTY,
         property = "@type"
+
 )
 @JsonSubTypes({
         @JsonSubTypes.Type(value = Admin.class, name = "admin"),
         @JsonSubTypes.Type(value = Expert.class, name = "expert"),
         @JsonSubTypes.Type(value = Manager.class, name = "manager")
 })
-public abstract class User implements Serializable {
+public abstract class User {
 
-    @Id
-    @GeneratedValue(generator = "user_id_sequence")
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "username")
     private String username;
 
-    @Email
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "registration_date")
     private Date registrationDate;
 }
