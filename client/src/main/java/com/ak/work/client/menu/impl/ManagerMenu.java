@@ -92,7 +92,7 @@ public class ManagerMenu implements Menu {
         problemIdForTask = problem.getId();
         System.out.format("        Вы выбрали проблему: %d) %s", (choice + 1), problem.getHeader());
 
-        showPossibleProblemSolutions(problem.getId());
+        showPossibleProblemSolutions(problemIdForTask);
     }
 
     private void showPossibleProblemSolutions(Integer problemId) {
@@ -163,6 +163,12 @@ public class ManagerMenu implements Menu {
 
     private void deleteProblem() {
         System.out.println();
+
+        //TODO: add check with 'exists' method
+        if (problemIdForTask == null) {
+            System.out.println("Перед удалением какой-либо проблемы нужно ее выбрать.");
+            return;
+        }
         System.out.println("Будет удалена проблема, выбранная в пункте 1)");
         System.out.println("Начинаем удаление...");
 
