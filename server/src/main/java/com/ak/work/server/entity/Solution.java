@@ -14,9 +14,6 @@ public class Solution {
     @GeneratedValue(generator = "solution_id_sequence")
     private int id;
 
-    @OneToOne
-    private User expert;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "problem_id")
     private Problem problem;

@@ -1,19 +1,16 @@
 package com.ak.work.client.producer;
 
 import com.ak.work.client.entity.*;
-import com.ak.work.client.exception.CallToExternalServiceException;
 import com.ak.work.client.menu.impl.AdminMenu;
 import com.ak.work.client.menu.impl.ExpertMenu;
 import com.ak.work.client.menu.impl.ManagerMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientException;
 
 import java.net.URI;
+import java.util.Scanner;
 
 @Component
 public class UserProducer extends Producer {
@@ -30,38 +27,26 @@ public class UserProducer extends Producer {
     @Autowired
     private ExpertMenu expertMenu;
 
-    public Boolean checkIfAuthenticated(String login, String password) {
+    public Boolean checkIfAuthenticated(String login, String password, Scanner scanner) {
         Credentials credentials = new Credentials(login, password);
-        URI uri = getUriWithPaths(userPath, "/authentication");
+        URI uri = getUriWithPaths(null, userPath, "/authentication");
 
-        try {
-            ResponseEntity<User> response = restTemplate.exchange(
-                    uri,
-                    HttpMethod.POST,
-                    new HttpEntity<>(credentials),
-                    User.class);
-
-            User user = response.getBody();
-            if (user == null) {
-                return Boolean.FALSE;
-            }
-
-            findInheritorAndExecuteMenu(user);
-        } catch (RestClientException e) {
-            throw new CallToExternalServiceException(HttpMethod.POST, uri);
-        } catch (NullPointerException e) {
+        User user = getOneObject(uri, HttpMethod.POST, credentials, User.class);
+        if (user == null) {
             return Boolean.FALSE;
         }
+
+        findInheritorAndExecuteMenu(user, scanner);
         return Boolean.TRUE;
     }
 
-    private void findInheritorAndExecuteMenu(User user) {
+    private void findInheritorAndExecuteMenu(User user, Scanner scanner) {
         if (user instanceof Expert) {
-            expertMenu.start();
+            expertMenu.start(user, scanner);
         } else if (user instanceof Manager) {
-            managerMenu.start();
+            managerMenu.start(user, scanner);
         } else if (user instanceof Admin) {
-            adminMenu.start();
+            adminMenu.start(user, scanner);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.ak.work.client.service;
 
 import com.ak.work.client.producer.UserProducer;
+import com.ak.work.client.util.InputUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,32 +15,22 @@ public class MenuService {
 
     public int startMenu(Scanner scanner) {
         System.out.println("\n\n");
-        System.out.println("Menu:");
-        System.out.println("    1) Log in");
-        System.out.println("    2) Exit");
+        System.out.println("Меню:");
+        System.out.println("    1) Войти в систему");
+        System.out.println("    2) Выход");
         System.out.println("\n");
 
-        do {
-            System.out.println();
-            System.out.print("Your choice: ");
-            String number = scanner.nextLine();
-            try {
-                return Integer.valueOf(number);
-            } catch (NumberFormatException e) {
-                System.out.println("PLEASE ENTER INTEGER NUMBER!");
-            }
-        } while (true);
-
+        return InputUtils.userChoice(scanner);
     }
 
     public Boolean login(Scanner scanner) {
-        System.out.print("login: ");
+        System.out.print("Логин: ");
         String login = scanner.nextLine();
 
-        System.out.print("password: ");
+        System.out.print("Пароль: ");
         String password = scanner.nextLine();
 
         System.out.println();
-        return userProducer.checkIfAuthenticated(login, password);
+        return userProducer.checkIfAuthenticated(login, password, scanner);
     }
 }

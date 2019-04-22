@@ -8,4 +8,6 @@ public interface ProblemService {
     Problem save(Problem problem);
 
     List<Problem> findProblems(Integer managerId);
+
+    void delete(Integer problemId);
 }
