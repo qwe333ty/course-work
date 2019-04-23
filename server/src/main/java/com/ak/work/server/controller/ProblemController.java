@@ -32,4 +32,9 @@ public class ProblemController {
     public void deleteProblem(@PathVariable(name = "id") Integer id) {
         problemService.delete(id);
     }
+
+    @GetMapping("/{id}/exists")
+    public ResponseEntity<Boolean> checkIfExists(@PathVariable(name = "id") Integer problemId) {
+        return ResponseEntity.ok(problemService.exists(problemId));
+    }
 }

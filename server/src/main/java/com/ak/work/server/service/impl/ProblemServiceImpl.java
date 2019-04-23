@@ -57,4 +57,9 @@ public class ProblemServiceImpl implements ProblemService {
 
         repository.deleteById(problemId);
     }
+
+    @Override
+    public Boolean exists(Integer problemId) {
+        return repository.existsById(problemId);
+    }
 }

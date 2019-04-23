@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Scanner;
 
 @Component
-public class AdminMenu implements Menu {
+public class AdminMenu extends Menu {
     @Override
     public void start(User user, Scanner scanner) {
         Admin admin = (Admin) user;
