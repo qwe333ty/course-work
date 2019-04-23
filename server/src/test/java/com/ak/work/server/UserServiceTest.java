@@ -69,7 +69,6 @@ public class UserServiceTest {
 
             Solution solution = new Solution();
             solution.setRating(9.86);
-            solution.setExpert(expert);
             solution.setProblem(problem);
             solution.setHeader("qwe 0q w eqw eqweqq qwq weqw e");
             solutionService.save(solution);

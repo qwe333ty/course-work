@@ -11,8 +11,6 @@ public class Solution {
 
     private int id;
 
-    private User expert;
-
     private Problem problem;
 
     private double rating;

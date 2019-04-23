@@ -6,9 +6,9 @@ gateway:
 api:
   prefix: /api/v1
   urn:
-    problem: /problem
-    solution: /solution
-    user: /user
+    problem: problem
+    solution: solution
+    user: user
 
 server:
   port: 8081

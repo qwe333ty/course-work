@@ -6,13 +6,8 @@ import com.ak.work.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManagerFactory;
-
 @Service
 public class UserServiceImpl implements UserService {
-
-    @Autowired
-    private EntityManagerFactory entityManagerFactory;
 
     @Autowired
     private UserRepository repository;
