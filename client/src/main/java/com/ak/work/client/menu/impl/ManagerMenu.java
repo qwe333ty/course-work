@@ -5,10 +5,7 @@ import com.ak.work.client.entity.Problem;
 import com.ak.work.client.entity.Solution;
 import com.ak.work.client.entity.User;
 import com.ak.work.client.menu.Menu;
-import com.ak.work.client.producer.ProblemProducer;
-import com.ak.work.client.producer.SolutionProducer;
 import com.ak.work.client.util.InputUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,24 +13,13 @@ import java.util.List;
 import java.util.Scanner;
 
 @Component
-public class ManagerMenu implements Menu {
-
-    @Autowired
-    private ProblemProducer problemProducer;
-
-    @Autowired
-    private SolutionProducer solutionProducer;
-
-    private Manager manager;
-
-    private Scanner scanner;
-
-    private Integer problemIdForTask;
+public class ManagerMenu extends Menu {
 
     @Override
     public void start(User user, Scanner scanner) {
-        manager = (Manager) user;
-        this.scanner = scanner;
+        super.manager = (Manager) user;
+        super.expert = null;
+        super.scanner = scanner;
 
         mainMenu();
     }
@@ -68,56 +54,6 @@ public class ManagerMenu implements Menu {
             }
 
         }
-    }
-
-    private void showAllProblems() {
-        System.out.println();
-        System.out.println("    Проблемы:");
-        List<Problem> problems = problemProducer.findProblems(manager.getId());
-
-        int counter = 0;
-        for (; counter < problems.size(); counter++) {
-
-            System.out.format("        %d) %s\n", (counter + 1), problems.get(counter).getHeader());
-        }
-        System.out.format("        %d) Выйти", ++counter);
-
-        System.out.println();
-        Integer choice = InputUtils.userChoice(scanner);
-        if (choice == counter) {
-            return;
-        }
-
-        Problem problem = problems.get(--choice);
-        problemIdForTask = problem.getId();
-        System.out.format("        Вы выбрали проблему: %d) %s", (choice + 1), problem.getHeader());
-
-        showPossibleProblemSolutions(problemIdForTask);
-    }
-
-    private void showPossibleProblemSolutions(Integer problemId) {
-        System.out.println();
-        System.out.println("        Eё альтернативные решения:");
-
-        List<Solution> solutions = solutionProducer.findSolutions(null, problemId);
-
-        int counter = 0;
-        for (; counter < solutions.size(); counter++) {
-
-            System.out.format("            %d) %s\n", (counter + 1), solutions.get(counter).getHeader());
-        }
-        System.out.format("            %d) Выйти", ++counter);
-
-        System.out.println();
-        Integer choice = InputUtils.userChoice(scanner);
-        if (choice == counter) {
-            return;
-        }
-
-        Solution solution = solutions.get(--choice);
-        System.out.format("        Вы выбрали решение: %d) %s", (choice + 1), solution.getHeader());
-        System.out.println();
-        System.out.println();
     }
 
     private void createProblem() {
@@ -164,9 +100,8 @@ public class ManagerMenu implements Menu {
     private void deleteProblem() {
         System.out.println();
 
-        //TODO: add check with 'exists' method
-        if (problemIdForTask == null) {
-            System.out.println("Перед удалением какой-либо проблемы нужно ее выбрать.");
+        if (problemIdForTask == null || !problemProducer.checkIfExists(problemIdForTask)) {
+            System.out.println("Проблема не была выбрана либо удалена.");
             return;
         }
         System.out.println("Будет удалена проблема, выбранная в пункте 1)");
