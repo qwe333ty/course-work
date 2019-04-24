@@ -37,4 +37,7 @@ public class ProblemController {
     public ResponseEntity<Boolean> checkIfExists(@PathVariable(name = "id") Integer problemId) {
         return ResponseEntity.ok(problemService.exists(problemId));
     }
+
+/*    @GetMapping("/{id}/solutionMatrix")
+    public ResponseEntity<List<Integer>>*/
 }

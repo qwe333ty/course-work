@@ -25,7 +25,9 @@ public class SolutionController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<List<Solution>> saveAllSolutions(@RequestBody List<Solution> solutions) {
-        return ResponseEntity.ok(service.saveAll(solutions));
+    public ResponseEntity<List<Solution>> saveAllSolutions(
+            @RequestBody List<Solution> solutions,
+            @RequestParam(name = "problemId") Integer problemId) {
+        return ResponseEntity.ok(service.saveAll(solutions, problemId));
     }
 }
