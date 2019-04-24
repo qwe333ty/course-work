@@ -16,4 +16,6 @@ public class Solution {
     private double rating;
 
     private String header;
+
+    private Integer order;
 }

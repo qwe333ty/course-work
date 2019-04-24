@@ -13,10 +13,11 @@ create table problem
 
 create table solution
 (
-    id         integer default nextval('solution_id_sequence'::regclass),
-    problem_id integer      not null,
-    rating     decimal      not null,
-    header     varchar(250) not null,
+    id             integer default nextval('solution_id_sequence'::regclass),
+    problem_id     integer      not null,
+    rating         decimal      not null,
+    header         varchar(250) not null,
+    solution_order integer      not null,
 
     constraint solution_pk primary key (id),
     constraint problem_id_to_problem_id_fk foreign key (problem_id) references problem (id)

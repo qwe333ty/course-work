@@ -17,6 +17,11 @@ public class ExpertMenu extends Menu {
         super.manager = null;
         super.scanner = scanner;
 
+
+        super.childSolutionToTask = null;
+        super.solutionToTask = null;
+        super.problemIdForTask = null;
+
         mainMenu();
     }
 

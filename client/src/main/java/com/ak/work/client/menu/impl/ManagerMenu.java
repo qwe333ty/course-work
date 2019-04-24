@@ -21,6 +21,10 @@ public class ManagerMenu extends Menu {
         super.expert = null;
         super.scanner = scanner;
 
+        super.childSolutionToTask = null;
+        super.solutionToTask = null;
+        super.problemIdForTask = null;
+
         mainMenu();
     }
 
@@ -52,7 +56,6 @@ public class ManagerMenu extends Menu {
                 default:
                     break main;
             }
-
         }
     }
 
@@ -68,23 +71,25 @@ public class ManagerMenu extends Menu {
         problem = problemProducer.save(problem);
 
         List<Solution> solutions = new ArrayList<>();
-        solutions.add(createSolution(problem));
+        solutions.add(createSolution(problem, 0));
 
         String yn;
+        int order = 1;
         do {
             System.out.print("    Хоте ли бы еще добавить решение? (да/нет)   ");
             yn = scanner.nextLine();
 
             if (yn.compareToIgnoreCase("да") == 0) {
-                solutions.add(createSolution(problem));
+                solutions.add(createSolution(problem, order));
+                order++;
             }
         } while (yn.compareToIgnoreCase("нет") != 0);
-        solutionProducer.saveAll(solutions);
+        solutionProducer.saveAll(solutions, problem.getId());
 
         System.out.println("Проблема и её решения успешно созданы.");
     }
 
-    private Solution createSolution(Problem problem) {
+    private Solution createSolution(Problem problem, int order) {
         System.out.println();
         System.out.println("        Добавляем альтернативное решение.");
         System.out.print("        Введите решение: ");
@@ -94,6 +99,7 @@ public class ManagerMenu extends Menu {
         solution.setProblem(problem);
         solution.setHeader(header);
         solution.setRating(0.0);
+        solution.setOrder(order);
         return solution;
     }
 

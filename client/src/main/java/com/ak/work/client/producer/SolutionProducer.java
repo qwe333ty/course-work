@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -30,8 +31,10 @@ public class SolutionProducer extends Producer {
         return getObjectList(uri, HttpMethod.GET, null, Solution.class);
     }
 
-    public List<Solution> saveAll(List<Solution> solutions) {
-        URI uri = getUriWithPaths(null, solutionPath, "/save");
+    public List<Solution> saveAll(List<Solution> solutions, Integer problemId) {
+        URI uri = getUriWithPathsAndParams(
+                Collections.singletonList(new URIUtils.QueryParam("problemId", new Object[]{problemId})),
+                solutionPath, "/save");
         return getObjectList(uri, HttpMethod.POST, solutions, Solution.class);
     }
 }

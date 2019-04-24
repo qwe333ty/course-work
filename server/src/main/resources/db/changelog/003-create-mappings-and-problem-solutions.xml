@@ -1,0 +1,14 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="cw-003" author="a.k">
+        <sqlFile path="sql/003-create-mappings-and-problem-solutions.sql" relativeToChangelogFile="true"/>
+        <rollback>
+            <sqlFile path="sql/003-create-mappings-and-problem-solutions-rollback.sql" relativeToChangelogFile="true"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

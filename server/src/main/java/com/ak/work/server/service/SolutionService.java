@@ -7,7 +7,7 @@ import java.util.List;
 public interface SolutionService {
     Solution save(Solution solution);
 
-    List<Solution> saveAll(List<Solution> solutions);
+    List<Solution> saveAll(List<Solution> solutions, Integer problemId);
 
     List<Solution> findSolutions(Integer expertId, Integer problemId);
 }

@@ -23,4 +23,7 @@ public class Solution {
 
     @Column(name = "header")
     private String header;
+
+    @Column(name = "solution_order")
+    private Integer order;
 }

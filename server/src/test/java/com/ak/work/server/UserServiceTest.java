@@ -1,6 +1,9 @@
 package com.ak.work.server;
 
-import com.ak.work.server.entity.*;
+import com.ak.work.server.entity.Admin;
+import com.ak.work.server.entity.Expert;
+import com.ak.work.server.entity.Manager;
+import com.ak.work.server.entity.User;
 import com.ak.work.server.service.ProblemService;
 import com.ak.work.server.service.SolutionService;
 import com.ak.work.server.service.UserService;
@@ -50,33 +53,6 @@ public class UserServiceTest {
                 hasProperty("email", is("qwerty@gmail.com")),
                 hasProperty("password", is("asdfghjkl")
                 )));
-    }
-
-    @Test
-    public void test3() {
-        User userManager = userService.findUserByUsernameOrEmailAndPassword(
-                null, "zxc@zxc.com", "POIhvfd");
-        User userExpert = userService.findUserByUsernameOrEmailAndPassword(
-                null, "asd@asd.com", "zxcdDFdvs");
-        if (userManager instanceof Manager && userExpert instanceof Expert) {
-            Manager manager = (Manager) userManager;
-            Expert expert = (Expert) userExpert;
-
-            Problem problem = new Problem();
-            problem.setManager(manager);
-            problem.setHeader("sdfvcv sr sfver sa df");
-            problem = problemService.save(problem);
-
-            Solution solution = new Solution();
-            solution.setRating(9.86);
-            solution.setProblem(problem);
-            solution.setHeader("qwe 0q w eqw eqweqq qwq weqw e");
-            solutionService.save(solution);
-
-            assertThat(problem, hasProperty("id", notNullValue()));
-        } else {
-            throw new AssertionError("Can't cast user to Manager class.");
-        }
     }
 
     private Admin createMockAdmin() {
