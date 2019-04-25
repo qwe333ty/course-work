@@ -13,4 +13,6 @@ public interface ProblemService {
     void delete(Integer problemId);
 
     Boolean exists(Integer problemId);
+
+    int[][] getSolutionMatrix(Integer problemId);
 }

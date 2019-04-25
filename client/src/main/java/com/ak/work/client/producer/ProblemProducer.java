@@ -39,4 +39,8 @@ public class ProblemProducer extends Producer {
         URI uri = getUriWithPaths(new Object[]{problemId}, problemPath, "{id}", "exists");
         return getOneObject(uri, HttpMethod.GET, null, Boolean.class);
     }
+
+    public int[][] getSolutionMatrixByProblemId(Integer problemId) {
+        return getSolutionMatrixByProblemId(problemId);
+    }
 }

@@ -82,4 +82,20 @@ public abstract class Producer {
             throw new CallToExternalServiceException(method, uri);
         }
     }
+
+    protected int[][] getProblemSolutionMatrix(Integer problemId, String problemPath) {
+        URI uri = getUriWithPaths(new Object[]{problemId}, problemPath, "{id}", "solutionMatrix");
+        try {
+            ResponseEntity<int[][]> response = restTemplate.exchange(
+                    uri,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<int[][]>() {
+                    });
+
+            return response.getBody();
+        } catch (RestClientException e) {
+            throw new CallToExternalServiceException(HttpMethod.GET, uri);
+        }
+    }
 }

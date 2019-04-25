@@ -58,6 +58,29 @@ public class ProblemServiceImpl implements ProblemService {
         return problemRepository.existsById(problemId);
     }
 
+    @Override
+    public int[][] getSolutionMatrix(Integer problemId) {
+        if (!problemRepository.existsById(problemId)) {
+            return new int[0][0];
+        }
+
+        String table_name = getTableNameInMappings(problemId);
+        List<Integer> values = jdbcTemplate.queryForList(
+                String.format("select value_ from %s order by (id)", table_name),
+                Integer.class);
+
+        int N = (int) Math.sqrt(values.size());
+
+        int[][] matrix = new int[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                matrix[i][j] = values.get((i * N) + j);
+            }
+        }
+
+        return matrix;
+    }
+
     private void deleteSolutionsByProblemId(Integer problemId) {
         @Cleanup EntityManager em = entityManagerFactory.createEntityManager();
         em.getTransaction().begin();
@@ -71,10 +94,18 @@ public class ProblemServiceImpl implements ProblemService {
     }
 
     private void deleteRelatedSolutionData(Integer problemId) {
-        String table_name = jdbcTemplate.queryForObject("select ps_table_name from problem_mapping " +
-                "where problem_id = ?", new Object[]{problemId}, String.class);
+        if (!problemRepository.existsById(problemId)) {
+            return;
+        }
+
+        String table_name = getTableNameInMappings(problemId);
         jdbcTemplate.execute(String.format("drop table %s", table_name));
         jdbcTemplate.update("delete from problem_mapping where problem_id = ?", problemId);
 
+    }
+
+    private String getTableNameInMappings(Integer problemId) {
+        return jdbcTemplate.queryForObject("select ps_table_name from problem_mapping " +
+                "where problem_id = ?", new Object[]{problemId}, String.class);
     }
 }

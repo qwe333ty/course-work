@@ -38,6 +38,8 @@ public class ProblemController {
         return ResponseEntity.ok(problemService.exists(problemId));
     }
 
-/*    @GetMapping("/{id}/solutionMatrix")
-    public ResponseEntity<List<Integer>>*/
+    @GetMapping("/{id}/solutionMatrix")
+    public ResponseEntity<int[][]> getSolutionMatrixByProblem(@PathVariable(name = "id") Integer problemId) {
+        return ResponseEntity.ok(problemService.getSolutionMatrix(problemId));
+    }
 }
