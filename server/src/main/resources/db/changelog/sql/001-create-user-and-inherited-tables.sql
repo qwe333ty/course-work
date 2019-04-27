@@ -27,6 +27,7 @@ create table managers
     id                 integer,
     company            VARCHAR(100) not null,
     manager_experience smallint     not null default 0,
+    company_info       text,
 
     constraint managers_pk primary key (id),
     constraint fk_manager_user foreign key (id) references users (id)

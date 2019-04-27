@@ -1,12 +1,16 @@
 package com.ak.work.server.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Data
 @Entity
 @Table(name = "solution")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Solution {
 
     @Id

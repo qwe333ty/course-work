@@ -9,6 +9,7 @@ api:
     problem: problem
     solution: solution
     user: user
+    evaluation: evaluation
 
 server:
   port: 8081

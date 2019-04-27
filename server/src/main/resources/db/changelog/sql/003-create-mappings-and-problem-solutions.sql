@@ -1,13 +1,15 @@
-create sequence problem_mapping_id_sequence;
-create sequence problem_solutions_table_number_sequence;
+create sequence solution_history_id_sequence;
 
-create table problem_mapping
+create table solution_history
 (
-    id            integer default nextval('problem_mapping_id_sequence'::regclass),
-    problem_id    integer      not null,
-    ps_table_name varchar(100) not null,
+    id         integer default nextval('solution_history_id_sequence'::regclass),
+    problem_id integer not null,
+    user_id    integer not null,
+    row_       integer not null,
+    column_    integer not null,
+    value_     integer default 0,
 
-    constraint problem_mapping_id_pk primary key (id),
-    constraint problem_id_fk foreign key (problem_id) references problem (id),
-    constraint unique_problem_id unique (problem_id)
+    primary key (id),
+    foreign key (problem_id) references problem (id),
+    foreign key (user_id) references users (id)
 );

@@ -18,8 +18,9 @@ public class ProblemController {
 
     @GetMapping
     public ResponseEntity<List<Problem>> getProblems(
-            @RequestParam(value = "managerId", required = false) Integer managerId) {
-        List<Problem> problems = problemService.findProblems(managerId);
+            @RequestParam(value = "managerId", required = false) Integer managerId,
+            @RequestParam(value = "resolved", required = false) Boolean resolved) {
+        List<Problem> problems = problemService.findProblems(managerId, resolved);
         return new ResponseEntity<>(problems, HttpStatus.OK);
     }
 
@@ -36,10 +37,5 @@ public class ProblemController {
     @GetMapping("/{id}/exists")
     public ResponseEntity<Boolean> checkIfExists(@PathVariable(name = "id") Integer problemId) {
         return ResponseEntity.ok(problemService.exists(problemId));
-    }
-
-    @GetMapping("/{id}/solutionMatrix")
-    public ResponseEntity<int[][]> getSolutionMatrixByProblem(@PathVariable(name = "id") Integer problemId) {
-        return ResponseEntity.ok(problemService.getSolutionMatrix(problemId));
     }
 }

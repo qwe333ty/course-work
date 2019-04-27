@@ -14,6 +14,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,12 +47,16 @@ public abstract class Producer {
         });
     }
 
-    protected URI getUriWithPaths(Object[] objects, String... paths) {
-        return getUri(objects, scheme, host, port, prefix, paths);
+    protected URI getUriWithPaths(Object[] pathVariables, String... paths) {
+        return getUri(pathVariables, Collections.emptyList(), scheme, host, port, prefix, paths);
     }
 
     protected URI getUriWithPathsAndParams(List<URIUtils.QueryParam> queryParams, String... paths) {
-        return getUri(queryParams, scheme, host, port, prefix, paths);
+        return getUri(null, queryParams, scheme, host, port, prefix, paths);
+    }
+
+    protected URI getClearUri(String... paths) {
+        return getUri(null, Collections.emptyList(), scheme, host, port, prefix, paths);
     }
 
     protected <T> T getOneObject(URI uri, HttpMethod method, Object body, Class<T> clazz) {
