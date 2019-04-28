@@ -16,11 +16,24 @@ public class SolutionController {
     @Autowired
     private SolutionService service;
 
+    /**
+     * @param expertId
+     * @param problemId
+     * @param all       - возвращает все записи, основываясь на {@param problemId}
+     * @param isRow     - посылаем параметр row = числу или null
+     * @param row       - id строки, по которой будут искаться столбики
+     * @param inverse   - если true, то ищем оценки, который доступны для изменения
+     * @return
+     */
     @GetMapping
     public ResponseEntity<List<Solution>> getSolutions(
             @RequestParam(name = "expertId", required = false) Integer expertId,
-            @RequestParam(value = "problemId", required = false) Integer problemId) {
-        List<Solution> solutions = service.findSolutions(expertId, problemId);
+            @RequestParam(name = "problemId", required = false) Integer problemId,
+            @RequestParam(name = "all", required = false) Boolean all,
+            @RequestParam(name = "isRow", required = false) Boolean isRow,
+            @RequestParam(name = "row", required = false) Integer row,
+            @RequestParam(name = "inverse", required = false, defaultValue = "false") Boolean inverse) {
+        List<Solution> solutions = service.findSolutions(expertId, problemId, all, isRow, row, inverse);
         return new ResponseEntity<>(solutions, HttpStatus.OK);
     }
 

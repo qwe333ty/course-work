@@ -4,8 +4,6 @@ import com.ak.work.server.entity.Admin;
 import com.ak.work.server.entity.Expert;
 import com.ak.work.server.entity.Manager;
 import com.ak.work.server.entity.User;
-import com.ak.work.server.service.ProblemService;
-import com.ak.work.server.service.SolutionService;
 import com.ak.work.server.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,12 +24,6 @@ public class UserServiceTest {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private ProblemService problemService;
-
-    @Autowired
-    private SolutionService solutionService;
 
     @Test
     public void test1() {

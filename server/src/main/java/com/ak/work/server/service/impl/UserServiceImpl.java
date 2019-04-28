@@ -26,4 +26,6 @@ public class UserServiceImpl implements UserService {
     public User findUserByUsernameOrEmailAndPassword(String username, String email, String password) {
         return repository.findUserByUsernameOrEmailAndPassword(username, email, password);
     }
+
+
 }

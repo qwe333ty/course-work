@@ -8,9 +8,7 @@ import com.ak.work.client.menu.Menu;
 import com.ak.work.client.util.InputUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 @Component
 public class ManagerMenu extends Menu {
@@ -19,11 +17,13 @@ public class ManagerMenu extends Menu {
     public void start(User user, Scanner scanner) {
         super.manager = (Manager) user;
         super.expert = null;
+        super.admin = null;
         super.scanner = scanner;
 
-        super.childSolutionToTask = null;
-        super.solutionToTask = null;
+        super.childSolutionOrderToTask = null;
+        super.solutionOrderToTask = null;
         super.problemIdForTask = null;
+        super.solutions = null;
 
         mainMenu();
     }
@@ -41,7 +41,7 @@ public class ManagerMenu extends Menu {
 
             switch (number) {
                 case 1:
-                    showAllProblems();
+                    showAllProblems(false, false, true, null, null, false);
                     break;
                 case 2:
                     createProblem();
@@ -50,7 +50,7 @@ public class ManagerMenu extends Menu {
                     deleteProblem();
                     break;
                 case 4:
-                    estimateProblem();
+                    evaluateProblem();
                     break;
                 case 5:
                 default:
@@ -68,6 +68,7 @@ public class ManagerMenu extends Menu {
 
         problem.setHeader(header);
         problem.setManager(manager);
+        problem.setResolved(false);
         problem = problemProducer.save(problem);
 
         List<Solution> solutions = new ArrayList<>();
@@ -118,7 +119,27 @@ public class ManagerMenu extends Menu {
         System.out.println("Проблема была успешно удалена.");
     }
 
-    private void estimateProblem() {
+    private void evaluateProblem() {
+        if (problemIdForTask == null) {
+            System.out.println("Проблема не была выбрана.");
+            return;
+        }
 
+        int[][] evaluationMatrix = problemProducer.getSolutionMatrixByProblemId(problemIdForTask);
+
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < evaluationMatrix.length; i++) {
+            int sum = 0;
+            for (int j = 0; j < evaluationMatrix[i].length; j++) {
+                sum += evaluationMatrix[i][j];
+            }
+            map.put(i, sum);
+        }
+
+        List<Solution> solutions = solutionProducer.findSolutions(null, problemIdForTask, true, null, null, null);
+        for (Solution solution : solutions) {
+            System.out.println("    Sum: " + map.get(solution.getOrder()) + " -- Header: " + solution.getHeader() + "");
+        }
     }
+
 }

@@ -14,4 +14,6 @@ public class Problem {
     private User manager;
 
     private String header;
+
+    private Boolean resolved;
 }

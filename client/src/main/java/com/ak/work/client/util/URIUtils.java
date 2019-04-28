@@ -10,23 +10,7 @@ import java.util.List;
 
 public class URIUtils {
 
-    public static URI getUri(Object[] objects, String scheme, String host, String port, String prefix, String... paths) {
-        UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
-                .scheme(scheme)
-                .host(host)
-                .port(port)
-                .path(prefix)
-                .pathSegment(paths);
-        UriComponents components;
-        if (objects != null) {
-            components = builder.buildAndExpand(objects);
-        } else {
-            components = builder.build();
-        }
-        return components.toUri();
-    }
-
-    public static URI getUri(List<QueryParam> queryParams, String scheme, String host, String port, String prefix, String... paths) {
+    public static URI getUri(Object[] pathVariables, List<QueryParam> queryParams, String scheme, String host, String port, String prefix, String... paths) {
         UriComponentsBuilder builder = UriComponentsBuilder.newInstance()
                 .scheme(scheme)
                 .host(host)
@@ -38,7 +22,13 @@ public class URIUtils {
             builder.queryParam(param.name, param.objects);
         }
 
-        return builder.build().toUri();
+        UriComponents components;
+        if (pathVariables != null) {
+            components = builder.buildAndExpand(pathVariables);
+        } else {
+            components = builder.build();
+        }
+        return components.toUri();
     }
 
     @Data

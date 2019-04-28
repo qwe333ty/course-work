@@ -19,4 +19,7 @@ public class Problem {
 
     @Column(name = "header")
     private String header;
+
+    @Column(name = "resolved")
+    private Boolean resolved;
 }

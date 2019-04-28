@@ -8,7 +8,7 @@ public interface ProblemService {
 
     Problem save(Problem problem);
 
-    List<Problem> findProblems(Integer managerId);
+    List<Problem> findProblems(Integer managerId, Boolean resolved);
 
     void delete(Integer problemId);
 

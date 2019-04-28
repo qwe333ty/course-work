@@ -14,6 +14,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,12 +47,16 @@ public abstract class Producer {
         });
     }
 
-    protected URI getUriWithPaths(Object[] objects, String... paths) {
-        return getUri(objects, scheme, host, port, prefix, paths);
+    protected URI getUriWithPaths(Object[] pathVariables, String... paths) {
+        return getUri(pathVariables, Collections.emptyList(), scheme, host, port, prefix, paths);
     }
 
     protected URI getUriWithPathsAndParams(List<URIUtils.QueryParam> queryParams, String... paths) {
-        return getUri(queryParams, scheme, host, port, prefix, paths);
+        return getUri(null, queryParams, scheme, host, port, prefix, paths);
+    }
+
+    protected URI getClearUri(String... paths) {
+        return getUri(null, Collections.emptyList(), scheme, host, port, prefix, paths);
     }
 
     protected <T> T getOneObject(URI uri, HttpMethod method, Object body, Class<T> clazz) {
@@ -68,6 +73,7 @@ public abstract class Producer {
         }
     }
 
+    //НЕ ЗАБЫВАЕМ ДОБАВЛЯТЬ МАППЕРЫ ИЗ paramType мапы
     @SuppressWarnings("all")
     protected <T> List<T> getObjectList(URI uri, HttpMethod method, Object body, Class<T> clazz) {
         try {
@@ -80,6 +86,24 @@ public abstract class Producer {
             return response.getBody();
         } catch (RestClientException e) {
             throw new CallToExternalServiceException(method, uri);
+        }
+    }
+
+    //т.к. мы возвращаем [][], то мы не можем это обозначить как 'T' в методе выше,
+    //это не объект , а массив массивов объектов
+    protected int[][] getProblemSolutionMatrix(Integer problemId, String problemPath) {
+        URI uri = getUriWithPaths(new Object[]{problemId}, problemPath, "{id}", "solutionMatrix");
+        try {
+            ResponseEntity<int[][]> response = restTemplate.exchange(
+                    uri,
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<int[][]>() {
+                    });
+
+            return response.getBody();
+        } catch (RestClientException e) {
+            throw new CallToExternalServiceException(HttpMethod.GET, uri);
         }
     }
 }

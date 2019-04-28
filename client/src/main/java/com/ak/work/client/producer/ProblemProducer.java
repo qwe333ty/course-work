@@ -7,7 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -16,11 +16,17 @@ public class ProblemProducer extends Producer {
     @Value("${api.urn.problem}")
     private String problemPath;
 
-    public List<Problem> findProblems(Integer managerId) {
-        URIUtils.QueryParam queryParam = new URIUtils.QueryParam(
+    @Value("${api.urn.evaluation}")
+    private String evaluationPath;
+
+    public List<Problem> findProblems(Integer managerId, Boolean resolved) {
+        URIUtils.QueryParam first = new URIUtils.QueryParam(
                 "managerId",
                 new Object[]{managerId});
-        URI uri = getUriWithPathsAndParams(Collections.singletonList(queryParam), problemPath);
+        URIUtils.QueryParam second = new URIUtils.QueryParam(
+                "resolved",
+                new Object[]{resolved});
+        URI uri = getUriWithPathsAndParams(Arrays.asList(first, second), problemPath);
 
         return getObjectList(uri, HttpMethod.GET, null, Problem.class);
     }
@@ -38,5 +44,9 @@ public class ProblemProducer extends Producer {
     public Boolean checkIfExists(Integer problemId) {
         URI uri = getUriWithPaths(new Object[]{problemId}, problemPath, "{id}", "exists");
         return getOneObject(uri, HttpMethod.GET, null, Boolean.class);
+    }
+
+    public int[][] getSolutionMatrixByProblemId(Integer problemId) {
+        return getProblemSolutionMatrix(problemId, evaluationPath);
     }
 }

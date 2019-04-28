@@ -9,5 +9,5 @@ public interface SolutionService {
 
     List<Solution> saveAll(List<Solution> solutions, Integer problemId);
 
-    List<Solution> findSolutions(Integer expertId, Integer problemId);
+    List<Solution> findSolutions(Integer expertId, Integer problemId, Boolean all, Boolean isRow, Integer row, Boolean inverse);
 }
