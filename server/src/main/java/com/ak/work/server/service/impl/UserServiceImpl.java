@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.springframework.util.Base64Utils.encodeToString;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -19,6 +22,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        String password = user.getPassword();
+        password = encodeToString(password.getBytes(UTF_8));
+        user.setPassword(password);
         return repository.save(user);
     }
 
