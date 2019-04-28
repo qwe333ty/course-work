@@ -21,12 +21,23 @@ public abstract class Menu {
 
     protected Expert expert;
 
+    protected Admin admin;
+
     protected Scanner scanner;
 
+    /**
+     * в переменной храним выбранную проблему, чтобы сохранялась между действий
+     */
     protected Integer problemIdForTask;
 
+    /**
+     * сохраняем первое выбранное решение для сравнения
+     */
     protected Integer solutionOrderToTask;
 
+    /**
+     * сохраняем второе выбранное решение для сравнения
+     */
     protected Integer childSolutionOrderToTask;
 
     protected List<Solution> solutions;
@@ -34,20 +45,46 @@ public abstract class Menu {
     public abstract void start(User user, Scanner scanner);
 
     protected void showAllProblems(boolean withInput, boolean resolved, boolean all, Boolean isRow, Integer row, Boolean inverse) {
-        showProblemsWithoutSolutions(resolved);
+        //true - когда нажали выход
+        boolean isExit = showProblemsWithoutSolutions(resolved);
+        if (problemIdForTask == null || isExit) {
+            return;
+        }
 
-        System.out.println();
-        System.out.println("        Eё альтернативные решения:");
-
+        //находим решения проблем
         this.solutions = solutionProducer.findSolutions(expert != null ? expert.getId() : null, problemIdForTask, all, isRow, row, inverse);
+
+        /*если ничего не нашли, то мы столкунулись с ситуацией, когда эксперт начал оценивать
+          какую-то проблему и исходя из алгоритма мы ищем сначала доступные (неоценённые) строки,
+          а после у каждой выбранной строки матрицы выбираем доступные (неоценённые) столбцы.
+          Но главный недостаток данных действий - у строки могут быть заняты не все столбцы,
+          в то время как алгоритм считает, что они заняты полностью. Следовательно, нужно учесть
+          данную ситуацию и подтянуть из базы данных все строки матрицы (все решения определенной
+          проблемы) и по-одиночке проверить: есть ли свободные у них столбцы? (что и делается
+          строками ниже)
+         */
         if (this.solutions.isEmpty()) {
+
+            //находим все решения проблемы
             List<Solution> temp = solutionProducer.findSolutions(
                     expert.getId(), problemIdForTask, true, false,
                     null, false);
+
+            //итерируем полученные решения
             for (Solution solution : temp) {
+                /*
+                    ходим на сервер, чтобы узнать: есть ли доступные
+                    столбцы для оценивания у данной (solution.getOrder()) строки
+                 */
                 List<Solution> q = solutionProducer.findSolutions(
                         expert.getId(), problemIdForTask, false, true,
                         solution.getOrder(), false);
+
+                /*
+                    если есть доступная строка, то начинаем работать с ней
+                    (работать == находим у нее доступные столбцы и выводим пользователю
+                    для выбора
+                 */
                 if (!q.isEmpty()) {
                     solutionOrderToTask = q.get(0).getOrder();
                     this.solutions = q;
@@ -60,11 +97,16 @@ public abstract class Menu {
                     break;
                 }
             }
+            System.out.println("Больше нету доступных решений для оценки");
+            return;
         }
+
+        System.out.println();
+        System.out.println("        Eё альтернативные решения:");
         showPossibleProblemSolutions(solutions, false, withInput);
     }
 
-    protected void showProblemsWithoutSolutions(boolean resolved) {
+    protected boolean showProblemsWithoutSolutions(boolean resolved) {
         System.out.println();
         System.out.println("    Проблемы:");
 
@@ -85,12 +127,13 @@ public abstract class Menu {
         System.out.println();
         Integer choice = InputUtils.userChoice(scanner);
         if (choice == counter) {
-            return;
+            return true;
         }
 
         Problem problem = problems.get(--choice);
         problemIdForTask = problem.getId();
         System.out.format("        Вы выбрали проблему: %d) %s", (choice + 1), problem.getHeader());
+        return false;
     }
 
     protected void showPossibleProblemSolutions(List<Solution> solutions, boolean isSubMenu, boolean withInput) {
@@ -106,7 +149,7 @@ public abstract class Menu {
 
             System.out.println();
             Integer choice = InputUtils.userChoice(scanner);
-            if (choice == counter) {
+            if (choice >= counter || choice <= 0) {
                 return;
             }
 

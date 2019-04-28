@@ -22,6 +22,7 @@ public class SolutionProducer extends Producer {
     private String evaluation;
 
     public List<Solution> findSolutions(Integer expertId, Integer problemId, Boolean all, Boolean isRow, Integer row, Boolean inverse) {
+        //опционально устанавливаем параметры запроса
         List<URIUtils.QueryParam> params = new ArrayList<>();
         if (expertId != null) {
             params.add(new URIUtils.QueryParam("expertId", new Object[]{expertId}));

@@ -18,12 +18,14 @@ public class ExpertMenu extends Menu {
     public void start(User user, Scanner scanner) {
         super.expert = (Expert) user;
         super.manager = null;
+        super.admin = null;
         super.scanner = scanner;
 
 
         super.childSolutionOrderToTask = null;
         super.solutionOrderToTask = null;
         super.problemIdForTask = null;
+        super.solutions = null;
 
         mainMenu();
     }
@@ -97,6 +99,9 @@ public class ExpertMenu extends Menu {
         setValuesToMatrix();
     }
 
+    /**
+     * сохраняем значения 0 и 1 в матрице по-одиночке!!!
+     */
     private void setValuesToMatrix() {
         SolutionHistory solutionHistory = new SolutionHistory();
         solutionHistory.setProblem(problemIdForTask);
@@ -142,6 +147,8 @@ public class ExpertMenu extends Menu {
 
         showPossibleProblemSolutions(filteredSolutions, true, true);
 
+        //FIXME: придумать что лучше показывать пользователю при выборе
+        // какое решение лучше, относительно другого + добавить проверку на ввод чисел
         System.out.println((solutionOrderToTask + 1) + " or " + (childSolutionOrderToTask + 1) + "?");
         int choice = InputUtils.userChoice(scanner);
         choice--;
@@ -152,6 +159,9 @@ public class ExpertMenu extends Menu {
         }
     }
 
+    /**
+     * обновляем значения 0 и 1 в матрице по-одиночке!!!
+     */
     private void updateValuesInMatrix() {
         SolutionHistory solutionHistory = new SolutionHistory();
         solutionHistory.setProblem(problemIdForTask);

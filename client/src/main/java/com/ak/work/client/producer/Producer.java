@@ -73,6 +73,7 @@ public abstract class Producer {
         }
     }
 
+    //НЕ ЗАБЫВАЕМ ДОБАВЛЯТЬ МАППЕРЫ ИЗ paramType мапы
     @SuppressWarnings("all")
     protected <T> List<T> getObjectList(URI uri, HttpMethod method, Object body, Class<T> clazz) {
         try {
@@ -88,6 +89,8 @@ public abstract class Producer {
         }
     }
 
+    //т.к. мы возвращаем [][], то мы не можем это обозначить как 'T' в методе выше,
+    //это не объект , а массив массивов объектов
     protected int[][] getProblemSolutionMatrix(Integer problemId, String problemPath) {
         URI uri = getUriWithPaths(new Object[]{problemId}, problemPath, "{id}", "solutionMatrix");
         try {

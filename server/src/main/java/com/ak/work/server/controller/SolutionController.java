@@ -16,6 +16,15 @@ public class SolutionController {
     @Autowired
     private SolutionService service;
 
+    /**
+     * @param expertId
+     * @param problemId
+     * @param all       - возвращает все записи, основываясь на {@param problemId}
+     * @param isRow     - посылаем параметр row = числу или null
+     * @param row       - id строки, по которой будут искаться столбики
+     * @param inverse   - если true, то ищем оценки, который доступны для изменения
+     * @return
+     */
     @GetMapping
     public ResponseEntity<List<Solution>> getSolutions(
             @RequestParam(name = "expertId", required = false) Integer expertId,

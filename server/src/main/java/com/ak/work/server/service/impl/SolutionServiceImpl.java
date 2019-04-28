@@ -103,7 +103,7 @@ public class SolutionServiceImpl implements SolutionService {
                         "from solution \n" +
                         "where (solution_order not in (" +
                         "select row_ from solution_history " +
-                        "where problem_id = :problemId and user_id = :userId and value_ = 1)) " +
+                        "where problem_id = :problemId and user_id = :userId)) " +
                         "and problem_id = :problemId", Solution.class)
                 .setParameter("problemId", problemId)
                 .setParameter("userId", expertId)
@@ -111,7 +111,7 @@ public class SolutionServiceImpl implements SolutionService {
     }
 
     @SuppressWarnings("unchecked")
-    private List<Solution> findNotRatedSolutionColumns(EntityManager em, Integer expertId, Integer problemId, Integer column) {
+    private List<Solution> findNotRatedSolutionColumns(EntityManager em, Integer expertId, Integer problemId, Integer row) {
         return em.createNativeQuery(
                 "select *\n" +
                         "from solution \n" +
@@ -121,7 +121,7 @@ public class SolutionServiceImpl implements SolutionService {
                         "and problem_id = :problemId and solution_order != :rw", Solution.class)
                 .setParameter("problemId", problemId)
                 .setParameter("userId", expertId)
-                .setParameter("rw", column)
+                .setParameter("rw", row)
                 .getResultList();
     }
 
@@ -132,7 +132,7 @@ public class SolutionServiceImpl implements SolutionService {
                         "from solution \n" +
                         "where (solution_order in (" +
                         "select row_ from solution_history " +
-                        "where problem_id = :problemId and user_id = :userId and value_ = 1)) " +
+                        "where problem_id = :problemId and user_id = :userId)) " +
                         "and problem_id = :problemId", Solution.class)
                 .setParameter("problemId", problemId)
                 .setParameter("userId", expertId)
@@ -140,7 +140,7 @@ public class SolutionServiceImpl implements SolutionService {
     }
 
     @SuppressWarnings("unchecked")
-    private List<Solution> findRatedSolutionColumns(EntityManager em, Integer expertId, Integer problemId, Integer column) {
+    private List<Solution> findRatedSolutionColumns(EntityManager em, Integer expertId, Integer problemId, Integer row) {
         return em.createNativeQuery(
                 "select *\n" +
                         "from solution \n" +
@@ -150,7 +150,7 @@ public class SolutionServiceImpl implements SolutionService {
                         "and problem_id = :problemId and solution_order != :rw", Solution.class)
                 .setParameter("problemId", problemId)
                 .setParameter("userId", expertId)
-                .setParameter("rw", column)
+                .setParameter("rw", row)
                 .getResultList();
     }
 }

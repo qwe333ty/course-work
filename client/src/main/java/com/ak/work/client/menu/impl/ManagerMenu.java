@@ -17,11 +17,13 @@ public class ManagerMenu extends Menu {
     public void start(User user, Scanner scanner) {
         super.manager = (Manager) user;
         super.expert = null;
+        super.admin = null;
         super.scanner = scanner;
 
         super.childSolutionOrderToTask = null;
         super.solutionOrderToTask = null;
         super.problemIdForTask = null;
+        super.solutions = null;
 
         mainMenu();
     }

@@ -2,10 +2,12 @@ package com.ak.work.server.controller;
 
 import com.ak.work.server.entity.SolutionHistory;
 import com.ak.work.server.service.EvaluationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
 @RestController
 @RequestMapping("${api.urn}/evaluation")
 public class EvaluationController {
