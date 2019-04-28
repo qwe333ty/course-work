@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -25,6 +26,9 @@ public class UserServiceTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Test
     public void test1() {
         Iterable<User> users = userService.saveAll(Arrays.asList(
@@ -39,19 +43,17 @@ public class UserServiceTest {
     @Test
     public void test2() {
         User user = userService.findUserByUsernameOrEmailAndPassword(
-                "Qwerty", null, "asdfghjkl");
+                "Qwerty", null, "qwe");
         assertThat(user, allOf(
                 hasProperty("username", is("Qwerty")),
-                hasProperty("email", is("qwerty@gmail.com")),
-                hasProperty("password", is("asdfghjkl")
-                )));
+                hasProperty("email", is("qwe@qwe.com"))));
     }
 
     private Admin createMockAdmin() {
         Admin admin = new Admin();
         admin.setUsername("Qwerty");
-        admin.setEmail("qwerty@gmail.com");
-        admin.setPassword("asdfghjkl");
+        admin.setEmail("qwe@qwe.com");
+        admin.setPassword(passwordEncoder.encode("qwe"));
         admin.setRegistrationDate(new Date());
         admin.setAddress("qweqweqwe asd xzcxzcczx");
         admin.setBossEmail("asdasd@zxc.com");
@@ -63,7 +65,7 @@ public class UserServiceTest {
         Expert expert = new Expert();
         expert.setUsername("Aasdf");
         expert.setEmail("asd@asd.com");
-        expert.setPassword("zxcdDFdvs");
+        expert.setPassword(passwordEncoder.encode("asd"));
         expert.setExperienceAsExpert(2);
         expert.setRegistrationDate(new Date());
         expert.setPrevProjects(5);
@@ -75,7 +77,7 @@ public class UserServiceTest {
         Manager manager = new Manager();
         manager.setUsername("Zdczc");
         manager.setEmail("zxc@zxc.com");
-        manager.setPassword("POIhvfd");
+        manager.setPassword(passwordEncoder.encode("zxc"));
         manager.setCompany("Qqqqq");
         manager.setExperienceAsManager(2);
         manager.setRegistrationDate(new Date());

@@ -5,14 +5,12 @@ import com.ak.work.server.entity.User;
 import com.ak.work.server.repository.UserRepository;
 import com.ak.work.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.springframework.util.Base64Utils.encodeToString;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,11 +18,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Override
     public User save(User user) {
-        String password = user.getPassword();
-        password = encodeToString(password.getBytes(UTF_8));
-        user.setPassword(password);
+        user.setPassword(encoder.encode(user.getPassword()));
         return repository.save(user);
     }
 
@@ -35,7 +34,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByUsernameOrEmailAndPassword(String username, String email, String password) {
-        return repository.findUserByUsernameOrEmailAndPassword(username, email, password);
+        User user = repository.findUserByUsernameOrEmailAndPassword(username, email);
+        if (user != null && encoder.matches(password, user.getPassword())) {
+            return user;
+        } else {
+            return null;
+        }
     }
 
     @Override
