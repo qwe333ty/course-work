@@ -46,7 +46,7 @@ public class ProblemProducer extends Producer {
         return getOneObject(uri, HttpMethod.GET, null, Boolean.class);
     }
 
-    public int[][] getSolutionMatrixByProblemId(Integer problemId) {
-        return getProblemSolutionMatrix(problemId, evaluationPath);
+    public int[][] getSolutionMatrixByProblemId(Integer problemId, Integer expertId) {
+        return getProblemSolutionMatrix(problemId, evaluationPath, expertId);
     }
 }

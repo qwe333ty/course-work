@@ -1,5 +1,6 @@
 package com.ak.work.client.producer;
 
+import com.ak.work.client.entity.Expert;
 import com.ak.work.client.entity.Problem;
 import com.ak.work.client.entity.Solution;
 import com.ak.work.client.exception.CallToExternalServiceException;
@@ -45,6 +46,8 @@ public abstract class Producer {
         });
         paramType.put(Solution.class, new ParameterizedTypeReference<List<Solution>>() {
         });
+        paramType.put(Expert.class, new ParameterizedTypeReference<List<Expert>>() {
+        });
     }
 
     protected URI getUriWithPaths(Object[] pathVariables, String... paths) {
@@ -57,6 +60,10 @@ public abstract class Producer {
 
     protected URI getClearUri(String... paths) {
         return getUri(null, Collections.emptyList(), scheme, host, port, prefix, paths);
+    }
+
+    protected URI getUriWithParamsAndPathVariables(Object[] pathVariables, List<URIUtils.QueryParam> queryParams, String... paths) {
+        return getUri(pathVariables, queryParams, scheme, host, port, prefix, paths);
     }
 
     protected <T> T getOneObject(URI uri, HttpMethod method, Object body, Class<T> clazz) {
@@ -91,8 +98,11 @@ public abstract class Producer {
 
     //т.к. мы возвращаем [][], то мы не можем это обозначить как 'T' в методе выше,
     //это не объект , а массив массивов объектов
-    protected int[][] getProblemSolutionMatrix(Integer problemId, String problemPath) {
-        URI uri = getUriWithPaths(new Object[]{problemId}, problemPath, "{id}", "solutionMatrix");
+    protected int[][] getProblemSolutionMatrix(Integer problemId, String problemPath, Integer expertId) {
+        URI uri = getUriWithParamsAndPathVariables(new Object[]{problemId},
+                Collections.singletonList(
+                        new URIUtils.QueryParam("expertId", new Object[]{expertId})),
+                problemPath, "{id}", "solutionMatrix");
         try {
             ResponseEntity<int[][]> response = restTemplate.exchange(
                     uri,

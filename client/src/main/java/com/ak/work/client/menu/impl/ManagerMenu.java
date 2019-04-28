@@ -1,9 +1,6 @@
 package com.ak.work.client.menu.impl;
 
-import com.ak.work.client.entity.Manager;
-import com.ak.work.client.entity.Problem;
-import com.ak.work.client.entity.Solution;
-import com.ak.work.client.entity.User;
+import com.ak.work.client.entity.*;
 import com.ak.work.client.menu.Menu;
 import com.ak.work.client.util.InputUtils;
 import org.springframework.stereotype.Component;
@@ -125,21 +122,26 @@ public class ManagerMenu extends Menu {
             return;
         }
 
-        int[][] evaluationMatrix = problemProducer.getSolutionMatrixByProblemId(problemIdForTask);
+        List<Expert> experts = userProducer.findAllExperts();
+        for (Expert expert : experts) {
+            System.out.println();
+            System.out.println("________________________________________________");
+            System.out.println("Expert " + expert.getUsername() + ": ");
+            int[][] evaluationMatrix = problemProducer.getSolutionMatrixByProblemId(problemIdForTask, expert.getId());
 
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int i = 0; i < evaluationMatrix.length; i++) {
-            int sum = 0;
-            for (int j = 0; j < evaluationMatrix[i].length; j++) {
-                sum += evaluationMatrix[i][j];
+            Map<Integer, Integer> map = new HashMap<>();
+            for (int i = 0; i < evaluationMatrix.length; i++) {
+                int sum = 0;
+                for (int j = 0; j < evaluationMatrix[i].length; j++) {
+                    sum += evaluationMatrix[i][j];
+                }
+                map.put(i, sum);
             }
-            map.put(i, sum);
-        }
 
-        List<Solution> solutions = solutionProducer.findSolutions(null, problemIdForTask, true, null, null, null);
-        for (Solution solution : solutions) {
-            System.out.println("    Sum: " + map.get(solution.getOrder()) + " -- Header: " + solution.getHeader() + "");
+            List<Solution> solutions = solutionProducer.findSolutions(null, problemIdForTask, true, null, null, null);
+            for (Solution solution : solutions) {
+                System.out.println("    Sum: " + map.get(solution.getOrder()) + " -- Header: " + solution.getHeader() + "");
+            }
         }
     }
-
 }

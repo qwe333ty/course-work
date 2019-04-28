@@ -7,10 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -32,5 +31,10 @@ public class UserController {
     @PostMapping("/registration")
     public ResponseEntity<User> registration(@RequestBody User user) {
         return new ResponseEntity<>(service.save(user), HttpStatus.OK);
+    }
+
+    @GetMapping("/experts")
+    public ResponseEntity<List<User>> findAllExerts() {
+        return new ResponseEntity<>(service.findAllExperts(), HttpStatus.OK);
     }
 }
