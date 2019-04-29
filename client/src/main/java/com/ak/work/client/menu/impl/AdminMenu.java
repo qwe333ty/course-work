@@ -29,12 +29,10 @@ public class AdminMenu extends Menu {
     private void mainMenu() {
         main:
         while (true) {
-            System.out.println("    1) ");
-            System.out.println("    2) ");
-            System.out.println("    3) ");
-            System.out.println("    4) ");
-            System.out.println("    5) ");
-            // .......................
+            System.out.println("    1) Добавить пользователя");
+            System.out.println("    2) Ограничить доступ");
+            System.out.println("    3) Вывести историю посещений");
+            System.out.println("    4) Выход");
 
             Integer number = InputUtils.userChoice(scanner);
 

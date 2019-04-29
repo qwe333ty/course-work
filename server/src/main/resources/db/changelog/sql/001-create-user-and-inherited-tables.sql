@@ -5,7 +5,7 @@ create table users
     id                integer               default nextval('user_id_sequence'::regclass),
     username          varchar(100) not null,
     email             varchar(100) not null,
-    password          varchar(40)  not null,
+    password          varchar(60)  not null,
     registration_date TIMESTAMP    not null default current_date,
 
     constraint user_pk primary key (id),

@@ -3,6 +3,7 @@ package com.ak.work.client.menu;
 import com.ak.work.client.entity.*;
 import com.ak.work.client.producer.ProblemProducer;
 import com.ak.work.client.producer.SolutionProducer;
+import com.ak.work.client.producer.UserProducer;
 import com.ak.work.client.util.InputUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,6 +17,9 @@ public abstract class Menu {
 
     @Autowired
     protected SolutionProducer solutionProducer;
+
+    @Autowired
+    protected UserProducer userProducer;
 
     protected Manager manager;
 
@@ -97,8 +101,6 @@ public abstract class Menu {
                     break;
                 }
             }
-            System.out.println("Больше нету доступных решений для оценки");
-            return;
         }
 
         System.out.println();

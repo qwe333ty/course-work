@@ -10,6 +10,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 
 import java.net.URI;
+import java.util.List;
 import java.util.Scanner;
 
 @Component
@@ -48,5 +49,10 @@ public class UserProducer extends Producer {
         } else if (user instanceof Admin) {
             adminMenu.start(user, scanner);
         }
+    }
+
+    public List<Expert> findAllExperts() {
+        URI uri = getClearUri(userPath, "/experts");
+        return getObjectList(uri, HttpMethod.GET, null, Expert.class);
     }
 }
