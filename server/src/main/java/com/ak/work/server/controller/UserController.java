@@ -2,6 +2,7 @@ package com.ak.work.server.controller;
 
 import com.ak.work.server.entity.Credentials;
 import com.ak.work.server.entity.User;
+import com.ak.work.server.entity.VisitHistory;
 import com.ak.work.server.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,5 +37,22 @@ public class UserController {
     @GetMapping("/experts")
     public ResponseEntity<List<User>> findAllExerts() {
         return new ResponseEntity<>(service.findAllExperts(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/visitHistory")
+    public ResponseEntity<List<VisitHistory>> userVisitHistory(
+            @PathVariable(name = "id") Integer userId) {
+        return new ResponseEntity<>(service.getUserVisitHistory(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/addVisitHistory")
+    public ResponseEntity<VisitHistory> saveVisitHistory(
+            @PathVariable(name = "id") Integer userId) {
+        return new ResponseEntity<>(service.saveVisit(userId), HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<User>> getAllUsers() {
+        return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
 }

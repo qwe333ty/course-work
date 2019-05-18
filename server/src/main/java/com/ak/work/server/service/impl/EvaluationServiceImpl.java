@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,6 +64,7 @@ public class EvaluationServiceImpl implements EvaluationService {
         return evaluationRepository.save(solutionHistory);
     }
 
+    @Transactional
     @Override
     public void update(SolutionHistory solutionHistory, int oldRow, int oldColumn) {
         evaluationRepository.updateSolutionHistory(

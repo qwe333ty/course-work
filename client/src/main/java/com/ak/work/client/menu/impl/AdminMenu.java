@@ -2,11 +2,13 @@ package com.ak.work.client.menu.impl;
 
 import com.ak.work.client.entity.Admin;
 import com.ak.work.client.entity.User;
+import com.ak.work.client.entity.VisitHistory;
 import com.ak.work.client.menu.Menu;
 import com.ak.work.client.producer.UserProducer;
 import com.ak.work.client.util.InputUtils;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Scanner;
 
 @Component
@@ -42,7 +44,10 @@ public class AdminMenu extends Menu {
                     addUser();
                     break;
                 case 2: //TODO
-                case 3: //TODO
+                    break;
+                case 3:
+                    getUserVisitHistory();
+                    break;
                 case 4:
                 default:
                     break main;
@@ -53,8 +58,8 @@ public class AdminMenu extends Menu {
 
     private void addUser() {
         System.out.println("Выберите роль добавляемого пользователя: ");
-        System.out.println("    1) " +UserProducer.MANAGER_ROLE);
-        System.out.println("    2) " +UserProducer.EXPERT_ROLE);
+        System.out.println("    1) " + UserProducer.MANAGER_ROLE);
+        System.out.println("    2) " + UserProducer.EXPERT_ROLE);
 
         Integer choice = InputUtils.userChoice(scanner);
 
@@ -80,8 +85,7 @@ public class AdminMenu extends Menu {
             first = scanner.nextLine();
             System.out.println("Введите опыт работы менеджера: ");
             second = scanner.nextInt();
-        }
-        else{
+        } else {
             System.out.println("Введите предыдущие проекты эксперта: ");
             first = scanner.nextLine();
             System.out.println("Введите опыт работы эксперта: ");
@@ -95,5 +99,17 @@ public class AdminMenu extends Menu {
             System.out.println("Пользователь успешно зарегистрирован.");
         else
             System.out.println("Произошла ошибка при регистрации. Повторите попытку снова.");
+    }
+
+    private void getUserVisitHistory() {
+        List<User> allUsers = userProducer.getAllUsers();
+        for (User user : allUsers) {
+            System.out.format("User %s\n", user.getUsername());
+            List<VisitHistory> userVisitHistory = userProducer.getUserVisitHistory(user.getId());
+            for (VisitHistory visitHistory : userVisitHistory) {
+                System.out.println(visitHistory.getId() + " - " + visitHistory.getVisitTime());
+            }
+            System.out.println("--------------------------------");
+        }
     }
 }

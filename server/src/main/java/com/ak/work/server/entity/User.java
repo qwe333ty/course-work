@@ -19,9 +19,9 @@ import java.util.Date;
         property = "@type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = Admin.class, name = "admin"),
-        @JsonSubTypes.Type(value = Expert.class, name = "expert"),
-        @JsonSubTypes.Type(value = Manager.class, name = "manager")
+        @JsonSubTypes.Type(value = Admin.class),
+        @JsonSubTypes.Type(value = Expert.class),
+        @JsonSubTypes.Type(value = Manager.class)
 })
 public abstract class User implements Serializable {
 
@@ -42,4 +42,7 @@ public abstract class User implements Serializable {
 
     @Column(name = "registration_date")
     private Date registrationDate;
+
+    @Column(name = "blocked")
+    private Boolean isBlocked;
 }

@@ -7,4 +7,6 @@
     <include file="changelog/001-create-user-and-inherited-tables.xml" relativeToChangelogFile="true"/>
     <include file="changelog/002-create-problem-and-solution-tables.xml" relativeToChangelogFile="true"/>
     <include file="changelog/003-create-mappings-and-problem-solutions.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/004-block-user.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/005-visit-history.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>

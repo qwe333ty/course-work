@@ -43,6 +43,8 @@ public class UserProducer extends Producer {
             return Boolean.FALSE;
         }
 
+        addVisit(user.getId());
+
         findInheritorAndExecuteMenu(user, scanner);
         return Boolean.TRUE;
     }
@@ -75,7 +77,7 @@ public class UserProducer extends Producer {
         user.setPassword(password);
         user.setRegistrationDate(Date.from(Instant.now()));
 
-        if (role == EXPERT_ROLE) {
+        if (role.equals(EXPERT_ROLE)) {
             Expert expert = (Expert) user;
             expert.setExperienceAsExpert(second);
             expert.setPrevProjects(Integer.valueOf(first));
@@ -89,5 +91,20 @@ public class UserProducer extends Producer {
         URI uri = getUriWithPaths(null, userPath, "/registration");
 
         return getOneObject(uri, HttpMethod.POST, user, User.class);
+    }
+
+    public List<VisitHistory> getUserVisitHistory(Integer userId) {
+        URI uri = getUriWithPaths(new Object[]{userId}, userPath, "{id}", "visitHistory");
+        return getObjectList(uri, HttpMethod.GET, null, VisitHistory.class);
+    }
+
+    public List<User> getAllUsers() {
+        URI uri = getClearUri(userPath);
+        return getObjectList(uri, HttpMethod.GET, null, User.class);
+    }
+
+    private void addVisit(Integer userId) {
+        URI uri = getUriWithPaths(new Object[]{userId}, userPath, "{id}", "addVisitHistory");
+        getOneObject(uri, HttpMethod.GET, null, VisitHistory.class);
     }
 }

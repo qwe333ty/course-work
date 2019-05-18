@@ -33,4 +33,6 @@ public abstract class User {
     private String password;
 
     private Date registrationDate;
+
+    private Boolean isBlocked;
 }

@@ -1,10 +1,9 @@
 package com.ak.work.client.producer;
 
-import com.ak.work.client.entity.Expert;
-import com.ak.work.client.entity.Problem;
-import com.ak.work.client.entity.Solution;
+import com.ak.work.client.entity.*;
 import com.ak.work.client.exception.CallToExternalServiceException;
 import com.ak.work.client.util.URIUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -22,6 +21,7 @@ import java.util.Map;
 
 import static com.ak.work.client.util.URIUtils.getUri;
 
+@Slf4j
 public abstract class Producer {
 
     @Value("${gateway.scheme}")
@@ -47,6 +47,10 @@ public abstract class Producer {
         paramType.put(Solution.class, new ParameterizedTypeReference<List<Solution>>() {
         });
         paramType.put(Expert.class, new ParameterizedTypeReference<List<Expert>>() {
+        });
+        paramType.put(User.class, new ParameterizedTypeReference<List<User>>() {
+        });
+        paramType.put(VisitHistory.class, new ParameterizedTypeReference<List<VisitHistory>>() {
         });
     }
 
@@ -80,7 +84,6 @@ public abstract class Producer {
         }
     }
 
-    //НЕ ЗАБЫВАЕМ ДОБАВЛЯТЬ МАППЕРЫ ИЗ paramType мапы
     @SuppressWarnings("all")
     protected <T> List<T> getObjectList(URI uri, HttpMethod method, Object body, Class<T> clazz) {
         try {
@@ -92,6 +95,7 @@ public abstract class Producer {
 
             return response.getBody();
         } catch (RestClientException e) {
+            log.error(e.getLocalizedMessage());
             throw new CallToExternalServiceException(method, uri);
         }
     }

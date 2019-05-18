@@ -2,15 +2,21 @@ package com.ak.work.server.service.impl;
 
 import com.ak.work.server.entity.Expert;
 import com.ak.work.server.entity.User;
+import com.ak.work.server.entity.VisitHistory;
 import com.ak.work.server.repository.UserRepository;
+import com.ak.work.server.repository.VisitHistoryRepository;
 import com.ak.work.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import static java.lang.System.currentTimeMillis;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,6 +26,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder encoder;
+
+    @Autowired
+    private VisitHistoryRepository visitHistoryRepository;
 
     @Override
     public User save(User user) {
@@ -48,5 +57,26 @@ public class UserServiceImpl implements UserService {
                 .stream(repository.findAll().spliterator(), false)
                 .filter(user -> user instanceof Expert)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<VisitHistory> getUserVisitHistory(Integer userId) {
+        return visitHistoryRepository.findAllByUser_Id(userId);
+    }
+
+    @Override
+    public List<User> getAll() {
+        return StreamSupport.stream(repository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public VisitHistory saveVisit(Integer userId) {
+        VisitHistory visitHistory = new VisitHistory();
+        visitHistory.setUser(repository.findById(userId)
+                .orElseThrow(EntityNotFoundException::new));
+        visitHistory.setVisitTime(new Timestamp(currentTimeMillis()));
+
+        return visitHistoryRepository.save(visitHistory);
     }
 }

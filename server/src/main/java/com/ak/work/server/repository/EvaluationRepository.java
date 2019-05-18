@@ -5,12 +5,10 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface EvaluationRepository extends CrudRepository<SolutionHistory, Integer> {
 
-    @Transactional
     @Modifying
     @Query(value = "update solution_history set row_ = ?, column_ = ?, value_ = ? " +
             "where problem_id = ? and user_id = ? and row_ = ? and column_ = ?", nativeQuery = true)
