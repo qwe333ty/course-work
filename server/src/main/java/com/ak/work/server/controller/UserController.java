@@ -25,7 +25,11 @@ public class UserController {
         log.info("User try to login.");
         User user = service.findUserByUsernameOrEmailAndPassword(
                 credentials.getLogin(), credentials.getLogin(), credentials.getPassword());
-        log.info("In system as {}", user.getUsername());
+        if (user != null) {
+            log.info("In system as {}.", user.getUsername());
+        } else {
+            log.warn("User not found.");
+        }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
