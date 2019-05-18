@@ -59,4 +59,12 @@ public class UserController {
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}/status")
+    public ResponseEntity<Boolean> changeUserBlockedStatus(
+            @PathVariable(name = "id") Integer userId,
+            @RequestParam(name = "isBlocked", defaultValue = "false") Boolean isBlocked) {
+        service.changeUserStatus(userId, isBlocked);
+        return ResponseEntity.ok(isBlocked);
+    }
 }

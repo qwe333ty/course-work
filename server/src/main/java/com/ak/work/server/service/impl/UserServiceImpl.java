@@ -9,6 +9,7 @@ import com.ak.work.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Timestamp;
@@ -78,5 +79,11 @@ public class UserServiceImpl implements UserService {
         visitHistory.setVisitTime(new Timestamp(currentTimeMillis()));
 
         return visitHistoryRepository.save(visitHistory);
+    }
+
+    @Transactional
+    @Override
+    public void changeUserStatus(Integer userId, Boolean status) {
+        repository.updateUserStatus(userId, status);
     }
 }

@@ -20,4 +20,6 @@ public interface UserService {
     List<User> getAll();
 
     VisitHistory saveVisit(Integer userId);
+
+    void changeUserStatus(Integer userId, Boolean status);
 }

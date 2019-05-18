@@ -4,6 +4,7 @@ import com.ak.work.client.entity.*;
 import com.ak.work.client.menu.impl.AdminMenu;
 import com.ak.work.client.menu.impl.ExpertMenu;
 import com.ak.work.client.menu.impl.ManagerMenu;
+import com.ak.work.client.util.URIUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -44,6 +46,11 @@ public class UserProducer extends Producer {
         }
 
         addVisit(user.getId());
+
+        if (user.getIsBlocked()) {
+            System.out.println("Ваш аккаунт был заблокирован.");
+            return Boolean.FALSE;
+        }
 
         findInheritorAndExecuteMenu(user, scanner);
         return Boolean.TRUE;
@@ -106,5 +113,14 @@ public class UserProducer extends Producer {
     private void addVisit(Integer userId) {
         URI uri = getUriWithPaths(new Object[]{userId}, userPath, "{id}", "addVisitHistory");
         getOneObject(uri, HttpMethod.GET, null, VisitHistory.class);
+    }
+
+    protected void changeUserStatus(Integer userId, Boolean status) {
+        URI uri = getUriWithParamsAndPathVariables(
+                new Object[]{userId},
+                Collections.singletonList(
+                        new URIUtils.QueryParam("isBlocked", new Object[]{status})),
+                userPath, "{id}", "status");
+        getOneObject(uri, HttpMethod.GET, null, Boolean.class);
     }
 }
