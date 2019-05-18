@@ -43,29 +43,29 @@ public class UserServiceTest {
     @Test
     public void test2() {
         User user = userService.findUserByUsernameOrEmailAndPassword(
-                "Qwerty", null, "qwe");
+                "Admin", null, "admin");
         assertThat(user, allOf(
-                hasProperty("username", is("Qwerty")),
-                hasProperty("email", is("qwe@qwe.com"))));
+                hasProperty("username", is("Admin")),
+                hasProperty("email", is("admin@admin.com"))));
     }
 
     private Admin createMockAdmin() {
         Admin admin = new Admin();
-        admin.setUsername("Qwerty");
-        admin.setEmail("qwe@qwe.com");
-        admin.setPassword(passwordEncoder.encode("qwe"));
+        admin.setUsername("Admin");
+        admin.setEmail("admin@admin.com");
+        admin.setPassword(passwordEncoder.encode("admin"));
         admin.setRegistrationDate(new Date());
-        admin.setAddress("qweqweqwe asd xzcxzcczx");
-        admin.setBossEmail("asdasd@zxc.com");
+        admin.setAddress("Belarus, Minsk, Kozlova str., 45-1");
+        admin.setBossEmail("bossAdmin@boss.com");
 
         return admin;
     }
 
     private Expert createMockExpert() {
         Expert expert = new Expert();
-        expert.setUsername("Aasdf");
-        expert.setEmail("asd@asd.com");
-        expert.setPassword(passwordEncoder.encode("asd"));
+        expert.setUsername("Expert");
+        expert.setEmail("expert@expert.com");
+        expert.setPassword(passwordEncoder.encode("expert"));
         expert.setExperienceAsExpert(2);
         expert.setRegistrationDate(new Date());
         expert.setPrevProjects(5);
@@ -75,10 +75,10 @@ public class UserServiceTest {
 
     private Manager createMockManager() {
         Manager manager = new Manager();
-        manager.setUsername("Zdczc");
-        manager.setEmail("zxc@zxc.com");
-        manager.setPassword(passwordEncoder.encode("zxc"));
-        manager.setCompany("Qqqqq");
+        manager.setUsername("Manager");
+        manager.setEmail("manager@manager.com");
+        manager.setPassword(passwordEncoder.encode("manager"));
+        manager.setCompany("Google");
         manager.setExperienceAsManager(2);
         manager.setRegistrationDate(new Date());
 

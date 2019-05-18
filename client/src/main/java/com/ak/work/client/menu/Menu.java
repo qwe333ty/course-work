@@ -96,7 +96,7 @@ public abstract class Menu {
                             expert.getId(), problemIdForTask, false, true, solutionOrderToTask, false);
                     if (filteredSolutions.isEmpty()) {
                         solutionOrderToTask = null;
-                        System.out.println("Нету доступных решений для оценки");
+                        System.out.println("Нет доступных решений для оценки");
                     }
                     break;
                 }
@@ -104,7 +104,7 @@ public abstract class Menu {
         }
 
         System.out.println();
-        System.out.println("        Eё альтернативные решения:");
+        System.out.print("    Eё альтернативные решения:");
         showPossibleProblemSolutions(solutions, false, withInput);
     }
 
@@ -124,7 +124,11 @@ public abstract class Menu {
 
             System.out.format("        %d) %s\n", (counter + 1), problems.get(counter).getHeader());
         }
-        System.out.format("        %d) Выйти", ++counter);
+        if (counter == 0)
+            System.out.println("        Доступных проблем нет");
+
+        System.out.println();
+        System.out.format("    Нажмите на %d, чтобы выйти", ++counter);
 
         System.out.println();
         Integer choice = InputUtils.userChoice(scanner);
@@ -134,7 +138,9 @@ public abstract class Menu {
 
         Problem problem = problems.get(--choice);
         problemIdForTask = problem.getId();
-        System.out.format("        Вы выбрали проблему: %d) %s", (choice + 1), problem.getHeader());
+        System.out.println();
+        System.out.format("    Вы выбрали проблему: %d) %s", (choice + 1), problem.getHeader());
+        System.out.println();
         return false;
     }
 
@@ -142,12 +148,19 @@ public abstract class Menu {
 
         int counter = 0;
         for (; counter < solutions.size(); counter++) {
+            if (counter == 0)
+                System.out.println();
+            System.out.format("    %d) %s\n", (counter + 1), solutions.get(counter).getHeader());
+        }
 
-            System.out.format("            %d) %s\n", (counter + 1), solutions.get(counter).getHeader());
+        if (counter == 0) {
+            System.out.print(" альтернативных решений нет.\n");
+            return;
         }
 
         if (withInput) {
-            System.out.format("            %d) Выйти", ++counter);
+            System.out.format("\n        Нажмите на %d, чтобы выйти", ++counter);
+//            System.out.format("            %d) Выйти", ++counter);
 
             System.out.println();
             Integer choice = InputUtils.userChoice(scanner);
@@ -161,11 +174,11 @@ public abstract class Menu {
             } else {
                 solutionOrderToTask = solution.getOrder();
             }
-            System.out.format("        Вы выбрали решение: %d) %s", (choice + 1), solution.getHeader());
+            System.out.format("\n        Вы выбрали решение: %d) %s", (choice + 1), solution.getHeader());
         }
 
         System.out.println();
-        System.out.println();
+//        System.out.println();
     }
 
 }

@@ -14,11 +14,9 @@ public class MenuService {
     private UserProducer userProducer;
 
     public int startMenu(Scanner scanner) {
-        System.out.println("\n\n");
-        System.out.println("Меню:");
+        System.out.println("\nМеню:");
         System.out.println("    1) Войти в систему");
         System.out.println("    2) Выход");
-        System.out.println("\n");
 
         return InputUtils.userChoice(scanner);
     }

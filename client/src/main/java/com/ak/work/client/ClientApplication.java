@@ -27,7 +27,7 @@ public class ClientApplication implements CommandLineRunner {
 
         System.out.println("\n\n\n\n\n\n");
         System.out.print("<> Hello! Welcome on board");
-        System.out.println("\n\n-------------------------------------------------------------------\n\n");
+        System.out.println("\n\n-------------------------------------------------------------------\n");
 
         @Cleanup Scanner scanner = new Scanner(System.in);
 
@@ -38,7 +38,7 @@ public class ClientApplication implements CommandLineRunner {
                     System.out.println("--------");
                     Boolean b = menuService.login(scanner);
                     if (b != null && !b) {
-                        System.out.println("Login or password is incorrect. Please enter one more time.");
+                        System.out.println("Логин или пароль неверны. Пожалуйста, введите данные ещё раз.");
                     }
                 }
                 break;

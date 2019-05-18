@@ -33,11 +33,12 @@ public class ExpertMenu extends Menu {
     private void mainMenu() {
         main:
         while (true) {
+            System.out.println("\nМеню:");
             System.out.println("    1) Просмотреть информацию о компании");
             System.out.println("    2) Просмотреть проблемы");
-            System.out.println("    3) Просмотреть решенные проблемы");
-            System.out.println("    4) Изменить оценку");
-            System.out.println("    5) Выход");
+//            System.out.println("    3) Просмотреть решенные проблемы");
+            System.out.println("    3) Изменить оценку");
+            System.out.println("    4) Выход");
 
             Integer number = InputUtils.userChoice(scanner);
 
@@ -49,14 +50,14 @@ public class ExpertMenu extends Menu {
                     showAllProblems(true, false, false, false, null, false);
                     alternativeSolutionsMenu();
                     break;
+//                case 3:
+//                    showAllProblems(false, true, true, null, null, false);
+//                    break;
                 case 3:
-                    showAllProblems(false, true, true, null, null, false);
-                    break;
-                case 4:
                     showProblemsWithoutSolutions(false);
                     updateSolutionHistory();
                     break;
-                case 5:
+                case 4:
                 default:
                     break main;
             }
@@ -74,8 +75,8 @@ public class ExpertMenu extends Menu {
         }
 
         System.out.println();
-        System.out.println("            1) Дать оценку решению проблемы");
-        System.out.println("            2) Выход");
+        System.out.println("        1) Дать оценку решению проблемы");
+        System.out.println("        2) Выход");
 
         Integer choice = InputUtils.userChoice(scanner);
         switch (choice) {
@@ -90,7 +91,7 @@ public class ExpertMenu extends Menu {
 
     private void subAlternativeMenu() {
         System.out.println();
-        System.out.println("            Доступные решения для сравнений:");
+        System.out.println("        Доступные решения для сравнений:");
 
         List<Solution> filteredSolutions = solutionProducer.findSolutions(
                 expert.getId(), problemIdForTask, false, true, solutionOrderToTask, false);
@@ -141,7 +142,7 @@ public class ExpertMenu extends Menu {
 
     private void solutionChoice(List<Solution> filteredSolutions) {
         if (filteredSolutions.isEmpty()) {
-            System.out.println("        Нету доступных альтернативных решений.");
+            System.out.println("        Нет доступных альтернативных решений.");
             return;
         }
 
@@ -149,7 +150,7 @@ public class ExpertMenu extends Menu {
 
         //FIXME: придумать что лучше показывать пользователю при выборе
         // какое решение лучше, относительно другого + добавить проверку на ввод чисел
-        System.out.println((solutionOrderToTask + 1) + " or " + (childSolutionOrderToTask + 1) + "?");
+        System.out.println("\n" + (solutionOrderToTask + 1) + " or " + (childSolutionOrderToTask + 1) + "?");
         int choice = InputUtils.userChoice(scanner);
         choice--;
 

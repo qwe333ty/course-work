@@ -74,7 +74,7 @@ public class ManagerMenu extends Menu {
         String yn;
         int order = 1;
         do {
-            System.out.print("    Хоте ли бы еще добавить решение? (да/нет)   ");
+            System.out.print("    Хотите еще добавить решение? (да/нет)   ");
             yn = scanner.nextLine();
 
             if (yn.compareToIgnoreCase("да") == 0) {
@@ -84,13 +84,14 @@ public class ManagerMenu extends Menu {
         } while (yn.compareToIgnoreCase("нет") != 0);
         solutionProducer.saveAll(solutions, problem.getId());
 
-        System.out.println("Проблема и её решения успешно созданы.");
+        System.out.println();
+        System.out.println("Проблема и её решения успешно созданы.\n");
     }
 
     private Solution createSolution(Problem problem, int order) {
         System.out.println();
-        System.out.println("        Добавляем альтернативное решение.");
-        System.out.print("        Введите решение: ");
+        System.out.println("    Добавляем альтернативное решение...");
+        System.out.print("    Введите решение: ");
         String header = scanner.nextLine();
 
         Solution solution = new Solution();
@@ -105,7 +106,7 @@ public class ManagerMenu extends Menu {
         System.out.println();
 
         if (problemIdForTask == null || !problemProducer.checkIfExists(problemIdForTask)) {
-            System.out.println("Проблема не была выбрана либо удалена.");
+            System.out.println("Проблема не была выбрана либо удалена.\n");
             return;
         }
         System.out.println("Будет удалена проблема, выбранная в пункте 1)");
@@ -118,7 +119,7 @@ public class ManagerMenu extends Menu {
 
     private void evaluateProblem() {
         if (problemIdForTask == null) {
-            System.out.println("Проблема не была выбрана.");
+            System.out.println("\nПроблема не была выбрана.\n");
             return;
         }
 
@@ -126,7 +127,7 @@ public class ManagerMenu extends Menu {
         for (Expert expert : experts) {
             System.out.println();
             System.out.println("________________________________________________");
-            System.out.println("Expert " + expert.getUsername() + ": ");
+            System.out.println("Expert " + expert.getUsername() + "  отправил следующее решение: ");
             int[][] evaluationMatrix = problemProducer.getSolutionMatrixByProblemId(problemIdForTask, expert.getId());
 
             Map<Integer, Integer> map = new HashMap<>();
@@ -142,6 +143,8 @@ public class ManagerMenu extends Menu {
             for (Solution solution : solutions) {
                 System.out.println("    Sum: " + map.get(solution.getOrder()) + " -- Header: " + solution.getHeader() + "");
             }
+
+            System.out.println("\nНаиболее предпочтительным решением к проблеме является ... \n");
         }
     }
 }
