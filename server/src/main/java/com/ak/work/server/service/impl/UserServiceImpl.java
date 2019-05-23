@@ -33,12 +33,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
+        if(user.getIsBlocked() == null){
+            user.setIsBlocked(false);
+        }
         user.setPassword(encoder.encode(user.getPassword()));
         return repository.save(user);
     }
 
     @Override
     public Iterable<User> saveAll(Iterable<User> users) {
+        for (User user : users) {
+            if(user.getIsBlocked() == null){
+                user.setIsBlocked(false);
+            }
+        }
         return repository.saveAll(users);
     }
 

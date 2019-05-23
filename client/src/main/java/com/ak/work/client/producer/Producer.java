@@ -105,7 +105,7 @@ public abstract class Producer {
     protected int[][] getProblemSolutionMatrix(Integer problemId, String problemPath, Integer expertId) {
         URI uri = getUriWithParamsAndPathVariables(new Object[]{problemId},
                 Collections.singletonList(
-                        new URIUtils.QueryParam("expertId", new Object[]{expertId})),
+                        new URIUtils.QueryParam("userId", new Object[]{expertId})),
                 problemPath, "{id}", "solutionMatrix");
         try {
             ResponseEntity<int[][]> response = restTemplate.exchange(

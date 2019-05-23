@@ -26,8 +26,8 @@ public class ClientApplication implements CommandLineRunner {
         }
 
         System.out.println("\n\n\n\n\n\n");
-        System.out.print("<> Hello! Welcome on board");
-        System.out.println("\n\n-------------------------------------------------------------------\n");
+        System.out.print("<> Здравствуйте! Добро пожаловать в приложение!");
+        System.out.println("\n\n-----------------------------------------------\n");
 
         @Cleanup Scanner scanner = new Scanner(System.in);
 
@@ -38,7 +38,7 @@ public class ClientApplication implements CommandLineRunner {
                     System.out.println("--------");
                     Boolean b = menuService.login(scanner);
                     if (b != null && !b) {
-                        System.out.println("Данные для входа не верны, либо Вы были заблокированы.");
+                        System.out.println("Данные для входа неверны либо Вы были заблокированы.");
                     }
                 }
                 break;

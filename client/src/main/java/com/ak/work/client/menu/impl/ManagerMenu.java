@@ -28,6 +28,7 @@ public class ManagerMenu extends Menu {
     private void mainMenu() {
         main:
         while (true) {
+            System.out.println("\nМеню:");
             System.out.println("    1) Посмотреть список всех проблем");
             System.out.println("    2) Добавить проблему");
             System.out.println("    3) Удалить проблему");
@@ -109,7 +110,7 @@ public class ManagerMenu extends Menu {
             System.out.println("Проблема не была выбрана либо удалена.\n");
             return;
         }
-        System.out.println("Будет удалена проблема, выбранная в пункте 1)");
+        System.out.println("Будет удалена проблема, выбранная в предыдущем пункте");
         System.out.println("Начинаем удаление...");
 
         problemProducer.deleteProblem(problemIdForTask);
@@ -127,7 +128,7 @@ public class ManagerMenu extends Menu {
         for (Expert expert : experts) {
             System.out.println();
             System.out.println("________________________________________________");
-            System.out.println("Expert " + expert.getUsername() + "  отправил следующее решение: ");
+            System.out.println("Expert " + expert.getUsername() + " отправил следующее решение: ");
             int[][] evaluationMatrix = problemProducer.getSolutionMatrixByProblemId(problemIdForTask, expert.getId());
 
             Map<Integer, Integer> map = new HashMap<>();
@@ -144,7 +145,22 @@ public class ManagerMenu extends Menu {
                 System.out.println("    Sum: " + map.get(solution.getOrder()) + " -- Header: " + solution.getHeader() + "");
             }
 
-            System.out.println("\nНаиболее предпочтительным решением к проблеме является ... \n");
+            Solution max = solutions.stream().max(new Comparator<Solution>() {
+                @Override
+                public int compare(Solution o1, Solution o2) {
+                    return map.get(o1.getOrder()) - map.get(o2.getOrder());
+                }
+            }).get();
+
+            if(map.get(max.getOrder()) == 0){
+                System.out.println("Экспертная оценка от " + expert.getUsername() + " ещё не выставлена");
+            }
+            else{
+                System.out.print("\nНаиболее предпочтительным решением к проблеме является решение: ");
+                System.out.println(max.getHeader() + " с весом " + map.get(max.getOrder()));
+                System.out.println("________________________________________________");
+            }
+
         }
     }
 }

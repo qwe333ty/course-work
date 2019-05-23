@@ -115,7 +115,7 @@ public class UserProducer extends Producer {
         getOneObject(uri, HttpMethod.GET, null, VisitHistory.class);
     }
 
-    protected void changeUserStatus(Integer userId, Boolean status) {
+    public void changeUserStatus(Integer userId, Boolean status) {
         URI uri = getUriWithParamsAndPathVariables(
                 new Object[]{userId},
                 Collections.singletonList(

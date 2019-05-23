@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>server</name>
     <description>Server</description>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>1.8</java.version>
@@ -63,6 +64,13 @@
                 <configuration>
                     <executable>true</executable>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

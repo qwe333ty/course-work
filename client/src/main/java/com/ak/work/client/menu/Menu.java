@@ -6,6 +6,7 @@ import com.ak.work.client.producer.SolutionProducer;
 import com.ak.work.client.producer.UserProducer;
 import com.ak.work.client.util.InputUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Iterator;
 
 import java.util.List;
 import java.util.Scanner;
@@ -67,15 +68,19 @@ public abstract class Menu {
           проблемы) и по-одиночке проверить: есть ли свободные у них столбцы? (что и делается
           строками ниже)
          */
+
+
         if (this.solutions.isEmpty()) {
 
             //находим все решения проблемы
             List<Solution> temp = solutionProducer.findSolutions(
                     expert.getId(), problemIdForTask, true, false,
                     null, false);
+            Iterator<Solution> iterator = temp.iterator();
 
             //итерируем полученные решения
-            for (Solution solution : temp) {
+            while (iterator.hasNext()){
+                Solution solution = iterator.next();
                 /*
                     ходим на сервер, чтобы узнать: есть ли доступные
                     столбцы для оценивания у данной (solution.getOrder()) строки
